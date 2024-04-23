@@ -1,4 +1,6 @@
+include ../makefile.env
 include .env
+
 
 init:
 	AUTHELIA_SECRET_PATH="./auth/authelia/secrets"
@@ -20,8 +22,12 @@ init:
 	@cp ${LLDAP_SECRET_PATH}/LDAP_USER_PASS ${AUTHELIA_SECRET_PATH}/AUTHENTICATION_BACKEND_LDAP_PASSWORD
 	@echo "Generated - random passwords"
 
-create-oidc-client-secret:
+create-oidc-secret:
 	@docker run authelia/authelia:latest authelia crypto hash generate pbkdf2 --random --random.length 32 --random.charset alphanumeric
+	@echo "\n---Authelia OIDC Configuration---"
+	@echo "Save the $(GREEN)'Digest:'$(COLOR_OFF) value in the 'auth/authelia/config/configuration.yml' file under 'identity_providers.oidc.clients[*].client_secret'."
+	@echo "The 'Random Password:' value should be set on the website where the OIDC client is registered."
+	@echo "---Authelia OIDC Configuration---\n"
 
 create-db:
 	@docker exec -it doodo-shop-postgres-1 createdb --username=${POSTGRES_USER} --owner=${POSTGRES_USER} ${LLDAP_DB_NAME} || true

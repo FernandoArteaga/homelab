@@ -25,3 +25,8 @@ Steps and instructions to deploy the services using Docker and Docker Compose.
     cp .env.default .env
     ```
 3. Run `make init` to create some docker networks, and fill the `.env` file with secrets and passwords. 
+4. Run `make create-oidc-secrets` to generate a secret password for any OIDC client. Follow the instructions.
+5. Create a [Cloudflare API token](https://dash.cloudflare.com/profile/api-tokens) and fill in the `.env` file.
+   Select the template `Edit zone DNS` > Select `doodo.shop` as Zone Resources > Set the IP address.
+6. Create a [Cloudflare tunnel](https://one.dash.cloudflare.com/e49234a93783622dfaf9a26acb0cbe5f/networks/tunnels)
+   and fill the token in the `.env` file.
