@@ -1,0 +1,5 @@
+.env
+/**/secrets/**
+auth/authelia/config/notification.txt
+networking/traefik/acme.json
+networking/traefik/*.log
