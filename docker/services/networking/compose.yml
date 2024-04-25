@@ -1,0 +1,37 @@
+services:
+  traefik:
+    image: traefik:${TRAEFIK_VERSION}
+    restart: always
+    ports:
+      - "443:443"
+    environment:
+      CF_API_EMAIL: fernan2ac11@gmail.com
+      CF_DNS_API_TOKEN: ${CF_API_TOKEN}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=https"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.fernandoarteaga.dev`)"
+      - "traefik.http.routers.traefik-dashboard.service=api@internal"
+      - "traefik.http.routers.traefik-dashboard.tls=true"
+      - "traefik.http.routers.traefik-dashboard.tls.certresolver=cloudflare"
+      - "traefik.http.routers.traefik-dashboard.tls.domains[0].main=fernandoarteaga.dev"
+      - "traefik.http.routers.traefik-dashboard.tls.domains[0].sans=*.fernandoarteaga.dev"
+      - "traefik.http.routers.traefik-dashboard.middlewares=authelia@docker"
+    networks:
+      - ${DOCKER_NETWORK}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik:/etc/traefik
+
+  tunnel:
+    image: cloudflare/cloudflared:${CF_VERSION}
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CF_TUNNEL_TOKEN}
+    networks:
+      - ${DOCKER_NETWORK}
+
+networks:
+  homelab:
+    external: true
