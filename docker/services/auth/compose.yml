@@ -17,7 +17,7 @@ services:
       #LLDAP_DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PWD}@${POSTGRES_HOST}/${LLDAP_DB_NAME}
     volumes:
       - ./lldap/secrets:/secrets
-      - ./lldap/data:/data
+      - lldap:/data
     networks:
       - ${DOCKER_NETWORK}
 
@@ -37,7 +37,7 @@ services:
       AUTHELIA_AUTHENTICATION_BACKEND_LDAP_BASE_DN: dc=fernandoarteaga,dc=dev  # must be identical to what is configured in lldap
       AUTHELIA_AUTHENTICATION_BACKEND_LDAP_USER=uid: admin,ou=people,dc=fernandoarteaga,dc=dev # must be the DN of your admin configured in lldap
       AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE: /secrets/STORAGE_ENCRYPTION_KEY
-      AUTHELIA_STORAGE_LOCAL_PATH: /config/db.sqlite3
+      AUTHELIA_STORAGE_LOCAL_PATH: /storage/db.sqlite3
       #AUTHELIA_STORAGE_POSTGRES_ADDRESS: tcp://${POSTGRES_HOST}:${POSTGRES_PORT}
       #AUTHELIA_STORAGE_POSTGRES_USERNAME: ${POSTGRES_USER}
       #AUTHELIA_STORAGE_POSTGRES_PASSWORD: ${POSTGRES_PWD}
@@ -55,6 +55,7 @@ services:
       - 'traefik.http.middlewares.authelia.forwardAuth.trustForwardHeader=true'
       - 'traefik.http.middlewares.authelia.forwardAuth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Name,Remote-Email'
     volumes:
+      - authelia:/storage
       - ./authelia/config:/config
       - ./authelia/secrets:/secrets
     networks:
@@ -63,3 +64,6 @@ services:
 networks:
   homelab:
     external: true
+volumes:
+  lldap:
+  authelia:

@@ -205,9 +205,11 @@ access_control:
   rules:
     # Rules applied to everyone
     - domain: traefik.fernandoarteaga.dev
-      policy: bypass
-    - domain: portainer.fernandoarteaga.dev
+      policy: one_factor
+    - domain: status.fernandoarteaga.dev
       policy: two_factor
+    - domain: portainer.fernandoarteaga.dev
+      policy: one_factor
 ##
 ## Session Provider Configuration
 ##
