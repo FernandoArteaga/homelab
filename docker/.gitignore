@@ -1,7 +1,9 @@
 .env
 /**/secrets/**
+services/**/*.sqlite*
+services/**/*.db
 services/auth/authelia/config/notification.txt
-services/auth/authelia/config/*.sqlite*
 services/auth/lldap/data/*
 services/networking/traefik/acme.json
 services/networking/traefik/*.log
+services/observability/uptime-kuma/data/*

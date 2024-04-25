@@ -6,6 +6,11 @@ Steps and instructions to deploy the services using Docker and Docker Compose.
 
 ## Services
 
+- Authelia: Authentication and security
+- LLDAP: Authentication
+- Traefik: Reverse proxy
+- Cloudflare Tunnel: Secure tunnel to the server
+- Portainer: Docker management
 
 ## Requirements
 

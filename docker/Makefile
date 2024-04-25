@@ -78,3 +78,13 @@ admin-up: admin-update-images
 
 admin-down:
 	@$(MAKE) compose-down COMPOSE_NAME=admin
+
+
+observability-update-images:
+	@docker pull louislam/uptime-kuma:${UPTIME_KUMA_VERSION}
+
+observability-up: observability-update-images
+	@$(MAKE) compose-up COMPOSE_NAME=observability
+
+observability-down:
+	@$(MAKE) compose-down COMPOSE_NAME=observability

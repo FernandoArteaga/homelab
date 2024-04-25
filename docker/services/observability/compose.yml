@@ -1,0 +1,21 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:${UPTIME_KUMA_VERSION}
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - uptime_kuma:/app/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kuma.entrypoints=https"
+      - "traefik.http.routers.kuma.rule=Host(`status.fernandoarteaga.dev`)"
+      - "traefik.http.routers.kuma.tls=true"
+      - "traefik.http.routers.kuma.middlewares=authelia@docker"
+    networks:
+      - ${DOCKER_NETWORK}
+
+networks:
+  homelab:
+    external: true
+volumes:
+  uptime_kuma:
